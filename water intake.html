@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Intake Counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .water-container {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .water {
+            width: 100%;
+            height: 100%;
+            background-image: url('water.jpg'); /* Replace with your water image */
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }
+
+        .water-level {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(52, 152, 219, 0.8);
+            transition: height 0.5s;
+            transform: scaleY(0);
+            transform-origin: bottom;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="water-container">
+            <div class="water">
+                <div class="water-level" id="waterLevel"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const waterContainer = document.querySelector(".water-container");
+            const waterLevel = document.getElementById("waterLevel");
+            const resetButton = document.getElementById("resetButton");
+            let currentAmount = 0;
+
+            // Example: Add 100ml when the page loads
+            currentAmount += 100;
+            updateWaterLevel();
+
+            // Example: Increase water amount by 100ml when clicked anywhere on the circle
+            waterContainer.addEventListener("click", function () {
+                currentAmount += 100;
+                updateWaterLevel();
+            });
+
+            // Reset the water level
+            resetButton.addEventListener("click", function () {
+                currentAmount = 0;
+                updateWaterLevel();
+            });
+
+            function updateWaterLevel() {
+                if (currentAmount > 2000) {
+                    currentAmount = 2000; // Limit to 2000ml (2 liters)
+                }
+                const percentage = (currentAmount / 2000) * 100;
+                waterLevel.style.transform = `scaleY(${percentage / 100})`;
+            }
+        });
+    </script>
+    <button id="resetButton">Reset</button>
+</body>
+</html>
